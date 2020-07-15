@@ -64,12 +64,59 @@ UKF::UKF()
 
 UKF::~UKF() {}
 
-void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
+void UKF::ProcessMeasurement(MeasurementPackage meas_package) 
+{
   /**
    * TODO: Complete this function! Make sure you switch between lidar and radar
    * measurements.
    */
+
+  if (is_initialized_ == false)
+  {
+    if (meas_package.sensor_type_ == MeasurementPackage::LASER)
+    {
+      x_ << meas_package.raw_measurements_[0], meas_package.raw_measurements_[1], 0, 0, 0;    // initialize using lidar
+    }
+    else if (meas_package.sensor_type_ == MeasurementPackage::RADAR)
+    {
+      double rho = meas_package.raw_measurements_[0];
+      double phi = meas_package.raw_measurements_[1];
+      double rho_dot = meas_package.raw_measurements_[2];
+
+      x_ << rho * cos(phi), rho * sin(phi), 0, 0, 0;                                           // initialize using radar
+    }
+    else
+    {
+      std::cout << "Invalid measurement \n";
+    }
+
+    is_initialized_ = true;
+    time_us_ = meas_package.timestamp_;
+
+    return;
+  }
+
+  double dt = static_cast<double>((meas_package.timestamp_ - time_us_) * 1e-6);
+  time_us_ = meas_package.timestamp_;
+
+  // prediction
+  Prediction(dt);
+
+  // update
+  if (meas_package.sensor_type_ == MeasurementPackage::LASER)
+  { 
+    UpdateLidar(meas_package);
+  }
+  else if (meas_package.sensor_type_ == MeasurementPackage::RADAR)
+  {
+    UpdateRadar(meas_package);
+  }
+  else
+  {
+    std::cout << "Invalid measurement \n";
+  }
 }
+
 
 void UKF::Prediction(double delta_t) {
   /**
