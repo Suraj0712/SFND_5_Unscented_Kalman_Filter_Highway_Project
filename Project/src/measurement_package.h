@@ -2,6 +2,7 @@
 #define MEASUREMENT_PACKAGE_H_
 
 #include "Eigen/Dense"
+#include <iostream>
 
 class MeasurementPackage {
 public:

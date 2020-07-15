@@ -24,7 +24,7 @@ public:
 	// Visualize sensor measurements
 	bool visualize_lidar = true;
 	bool visualize_radar = true;
-	bool visualize_pcd = true;
+	bool visualize_pcd = false;
 	// Predict path in the future using UKF
 	double projectedTime = 0;
 	int projectedSteps = 0;
