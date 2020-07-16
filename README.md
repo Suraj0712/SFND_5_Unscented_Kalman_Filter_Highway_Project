@@ -6,9 +6,10 @@
 
 <img src="./Project/media/ukf_highway_tracked.gif" width="800" height="500" />
 The red spheres above cars represent the (x,y) lidar detection and the purple lines show the radar measurements with the velocity magnitude along the detected angle. The Z-axis is not taken into account for tracking, so you are only tracking along the X/Y axis.
-- The red spheres above the cars represent the (noisy) lidar detection cluster centroid.
-- The purple lines show the radar measurements with the velocity magnitude along the detected angle.
-- The green spheres show the UKF's estimation of the vehicle's current position, as well as its estimated position several timesteps into the future.
+
+* The red spheres above the cars represent the (noisy) lidar detection cluster centroid.
+* The purple lines show the radar measurements with the velocity magnitude along the detected angle.
+* The green spheres show the UKF's estimation of the vehicle's current position, as well as its estimated position several timesteps into the future.
 
 
 ---
@@ -34,7 +35,7 @@ To achieve our goal we need to complete the following four major tasks:
 7. The steps to update are identical for both the sensor except determining the states from the data.
 8. We will calculate the Kalman gains and get the best estimate
 
-<img src="./Project/media/ukf_highway.png" width="500" height="500" />
+<img src="./Project/media/ukf_highway.png" width="800" height="500" />
 
 `main.cpp` is using `highway.h` to create a straight 3 lane highway environment with 3 traffic cars and the main ego car at the center. 
 The viewer scene is centered around the ego car and the coordinate system is relative to the ego car as well. The ego car is green while the other traffic cars are blue. The traffic cars will be accelerating and altering their steering to change lanes. Each of the traffic car's has
@@ -98,7 +99,7 @@ b = 1/2 * (delta_t ^ 2) * sin(psi_k) * (linear_acc_noise)
 ```
 
 #### FP.2 Sigma Point generation (Ukf Process model)
-To deal with non-linear function ```UKF`` uses unscented transformation. In ```unscented transformation``` we use sigma points which are representative of the whole distribution. We transform sigma points to get the new mean and covariance matrics. The results we get from the UKF are not accurate but they are the best possible estimate. The derivation to get the sigma point looks crazy however, the intuition behind it is very simple. We sample point at some predefined ```sigma level``` along the positive and negative direction of every state in state-space vector and we also include the mean of distribution so in total we have **2 * Number_of_states + 1** sigma points. We can select different sigma levels to generate more points however, in that case, we need to deal with accuracy and time trade-off. Refer to this [implementation](https://github.com/Suraj0712/SFND_5_Unscented_Kalman_Filter_Highway_Project/tree/master/quiz/q6_generating_sigma_points) for the sigma point generation also take a look at the following image to get some idea on rules related to sigma point generation.
+To deal with non-linear function ```UKF``` uses unscented transformation. In ```unscented transformation``` we use sigma points which are representative of the whole distribution. We transform sigma points to get the new mean and covariance matrics. The results we get from the UKF are not accurate but they are the best possible estimate. The derivation to get the sigma point looks crazy however, the intuition behind it is very simple. We sample point at some predefined ```sigma level``` along the positive and negative direction of every state in state-space vector and we also include the mean of distribution so in total we have **2 * Number_of_states + 1** sigma points. We can select different sigma levels to generate more points however, in that case, we need to deal with accuracy and time trade-off. Refer to this [implementation](https://github.com/Suraj0712/SFND_5_Unscented_Kalman_Filter_Highway_Project/tree/master/quiz/q6_generating_sigma_points) for the sigma point generation also take a look at the following image to get some idea on rules related to sigma point generation.
 
 <img src="./Project/media/sigma_points.png" width="800" height="500" />
 
