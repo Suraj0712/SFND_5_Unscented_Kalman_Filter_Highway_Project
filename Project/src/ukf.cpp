@@ -209,7 +209,8 @@ void UKF::Prediction(double delta_t) {
   P_ = final_P;
 }
 
-void UKF::UpdateLidar(MeasurementPackage meas_package) {
+void UKF::UpdateLidar(MeasurementPackage meas_package) 
+{
   /**
    * TODO: Complete this function! Use lidar data to update the belief 
    * about the object's position. Modify the state vector, x_, and 
@@ -294,7 +295,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   P_ = P_ - K * S * K.transpose();
 }
 
-void UKF::UpdateRadar(MeasurementPackage meas_package) {
+void UKF::UpdateRadar(MeasurementPackage meas_package) 
+{
   /**
    * TODO: Complete this function! Use radar data to update the belief 
    * about the object's position. Modify the state vector, x_, and 
